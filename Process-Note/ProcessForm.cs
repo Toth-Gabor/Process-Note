@@ -90,17 +90,26 @@ namespace Process_Note
 
         private void ListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView.SelectedItems.Count > 0)
+
+            try
             {
-                Process proc = GetCurrentProcess();
-                textBox1.Text = proc.Threads.Count.ToString();
-                DateTime startTime = proc.StartTime;
-                TimeSpan runningTime = DateTime.Now - startTime;
-                running.Text = runningTime.ToString();
-                start.Text = startTime.ToString();
-                cpu.Text = GetCPUUsage(proc).ToString() + "%";
-                memory.Text = GetRamUsage(proc);
-                comment.Text = GetComment(proc);
+                if (listView.SelectedItems.Count > 0)
+                {
+                    Process proc = GetCurrentProcess();
+                    textBox1.Text = proc.Threads.Count.ToString();
+                    DateTime startTime = proc.StartTime;
+                    TimeSpan runningTime = DateTime.Now - startTime;
+                    running.Text = runningTime.ToString();
+                    start.Text = startTime.ToString();
+                    cpu.Text = GetCPUUsage(proc).ToString() + "%";
+                    memory.Text = GetRamUsage(proc);
+                    comment.Text = GetComment(proc);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                GetAllProcess();
             }
         }
 
